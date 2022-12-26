@@ -1,0 +1,84 @@
+/* .login{
+    height: 100vh;
+    display: flex;
+    align-items: ;
+} */
+.register {
+    display: grid;
+    background-color:#101a20;
+    place-items: center;
+    
+    height: 100vh;
+    width: 100%;
+  }
+  
+  .register > div > img {
+    object-fit: contain;
+    height: 150px;
+  }
+  
+  .register > button {
+    width: 300px;
+    background-color:  #00a884;
+    color: #202427;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  
+ 
+  .app-name-register{
+    color: #00a884;
+    
+  }
+  .ipts{
+    width: 300px;
+    height: 40px;
+    margin-top:-80px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    text-indent: 4px;
+    text-align: center;
+    outline: none;
+  
+  
+  }
+  .iptss{
+    width: 300px;
+    height: 40px;
+    margin-top:-120px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    text-indent: 4px;
+    text-align: center;
+    outline: none;
+  
+  
+  }
+  .passw{
+    margin-top:-150px;
+    width: 300px;
+    height: 40px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    text-indent: 4px;
+    text-align: center;
+    outline: none;
+  
+  
+  
+  }
+  .buttons{
+    margin-top: -100px;
+    height: 40px;
+  }
+  .accounts{
+    color: white;
+    margin-top: -180px;
+  }
+  .accounts span{
+    color:  #00a884;
+           cursor: pointer;
+  }
