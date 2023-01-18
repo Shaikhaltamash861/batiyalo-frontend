@@ -1,20 +1,23 @@
-import React,{useState} from 'react'
+import React,{useState ,useContext} from 'react'
 import './login.css'
 import { useNavigate } from 'react-router-dom'
+import CurrentUser from '../context/currentUser'
 import axios from 'axios'
 function Login({userHandle}) {
-    const [email,setEmail]=useState()
-    const [password,setPassword]=useState()
+    const [email,setEmail]=useState('')
+    const [password,setPassword]=useState('')
     const navigate=useNavigate();
-  
+    const updateUser=useContext(CurrentUser)
     const signIn = async() => {
    
        const {data}=await  axios.post('https://batiyaloapi.onrender.com/api/login',{
         email:email,
         password:password
        })
+       console.log(data)
       if(data.status){
-        userHandle(data)
+
+        updateUser.user(data)
         navigate('/')
         
       }

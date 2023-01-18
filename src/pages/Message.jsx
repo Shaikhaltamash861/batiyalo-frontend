@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import './msg.css'
-import {format} from 'timeago.js'
 function Message({id,item}) {
  const [currentTime,setCurrentTime]=useState()
  useEffect(() => {

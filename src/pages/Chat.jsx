@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import styeled from 'styled-components'
 import SendIcon from '@mui/icons-material/Send';
@@ -10,124 +10,124 @@ import PeopleIcon from '@mui/icons-material/People';
 import axios from 'axios'
 import bg from '../asset/bg.png'
 import './chat.css'
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client'
 import avatar from '../asset/avatar1.png'
 import FriendList from './FriendList';
 import Message from './Message';
 import NewChat from './NewChat';
 import EmojiPicker from 'emoji-picker-react';
-function Chat({user,userHandle}) {
-  const [conversations,setConversations]=useState([])
-  const [currentChat,setCurrentChat]=useState([])
-  const [messages,setMessages]=useState([])
-  const [newMeassage,setNewmessage]=useState();
-  const [selctedUser,setSelectedUser]=useState();
-  const [openChat,setOpenChat]=useState(false);
-  const [myFriend,setMyfriend]=useState([])
-  const [socketMessge,setSocketMessage]=useState(null)
-  const [onlineUsers,setOnlineUser]=useState()
-  const [getStatus,setGetStatus]=useState()
-  const [click,setClick]=useState(false)
-  const socket=useRef()
+function Chat({ user, userHandle }) {
+  const [conversations, setConversations] = useState([])
+  const [currentChat, setCurrentChat] = useState([])
+  const [messages, setMessages] = useState([])
+  const [newMeassage, setNewmessage] = useState();
+  const [selctedUser, setSelectedUser] = useState();
+  const [openChat, setOpenChat] = useState(false);
+  const [myFriend, setMyfriend] = useState([])
+  const [socketMessge, setSocketMessage] = useState(null)
+  const [onlineUsers, setOnlineUser] = useState()
+  const [getStatus, setGetStatus] = useState()
+  const [click, setClick] = useState(false)
+  const socket = useRef()
 
-  const id=user.message._id
-  
-  const scrollRef=useRef()
-  const [updated,setUpdate]=useState([])
-  const updater=(data)=>{
-    setUpdate(data)  
-    
+  const id = user.message._id
+
+  const scrollRef = useRef()
+  const [updated, setUpdate] = useState([])
+  const updater = (data) => {
+    setUpdate(data)
+
   }
-  useEffect(()=>{
-    socket.current=io('https://socketapi-2ffd.onrender.com');
-      socket?.current.on('getMessage',(data)=>{
-        
-          setSocketMessage({
-            sender:data.senderId,
-            text:data.text,
-            createdAt:new Date()
-          })
-      })
-      console.log('socketMsg arrived ')
-  },[])
-  useEffect(()=>{
-    console.log('msg received')
-    socketMessge && currentChat?.members?.includes(socketMessge?.sender)&&
-    setMessages(prev=>[...prev,socketMessge])
-  },[socketMessge,currentChat])
-  useEffect(()=>{
-       socket?.current.emit('addUsers',id)
-       socket?.current.on('getUsers',(users)=>{
-        setOnlineUser(users)
-       })
-  },[user])
   useEffect(() => {
-       const getConversation=async()=>{
-          const {data}=await axios.get(`https://batiyaloapi.onrender.com/api/conversation/${id}`)
-        
-          setConversations(data)
-       }
-       getConversation()
-       
-  }, [user,updated])
-   
-  useEffect(()=>{
-            const getMessages=async()=>{
-              const { data } =await axios.get(`https://batiyaloapi.onrender.com/api/message/${currentChat._id}`)
-              setMessages(data)
-            }
-            const getCurrentUser=async()=>{
-              const findOtherUsers=currentChat?.members.find((m)=>m!==id)
-              const {data}=await axios.get(`https://batiyaloapi.onrender.com/api/getuser/${findOtherUsers}`)
-              setSelectedUser(data)
-            }
-            getMessages()
-            getCurrentUser();
-  },[currentChat])
-  
-const handleSubmit=async(e)=>{
-  e.preventDefault();
-  
-    const sandesh={
-      conversationId:currentChat._id,
-      senderId:id,
-      text:newMeassage
+    socket.current = io('https://socketapi-2ffd.onrender.com');
+    socket?.current.on('getMessage', (data) => {
+
+      setSocketMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: new Date()
+      })
+    })
+    console.log('socketMsg arrived ')
+  }, [])
+  useEffect(() => {
+    console.log('msg received')
+    socketMessge && currentChat?.members?.includes(socketMessge?.sender) &&
+      setMessages(prev => [...prev, socketMessge])
+  }, [socketMessge, currentChat])
+  useEffect(() => {
+    socket?.current.emit('addUsers', id)
+    socket?.current.on('getUsers', (users) => {
+      setOnlineUser(users)
+    })
+  }, [user])
+  useEffect(() => {
+    const getConversation = async () => {
+      const { data } = await axios.get(`https://batiyaloapi.onrender.com/api/conversation/${id}`)
+
+      setConversations(data)
     }
-    const receiverId=currentChat.members.find((member)=>member!==id)
-    socket?.current.emit('sendMessage',{
-      senderId:id,
-      receiverId:receiverId,
-      text:newMeassage
+    getConversation()
+
+  }, [user, updated])
+
+  useEffect(() => {
+    const getMessages = async () => {
+      const { data } = await axios.get(`https://batiyaloapi.onrender.com/api/message/${currentChat._id}`)
+      setMessages(data)
+    }
+    const getCurrentUser = async () => {
+      const findOtherUsers = currentChat?.members.find((m) => m !== id)
+      const { data } = await axios.get(`https://batiyaloapi.onrender.com/api/getuser/${findOtherUsers}`)
+      setSelectedUser(data)
+    }
+    getMessages()
+    getCurrentUser();
+  }, [currentChat])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const sandesh = {
+      conversationId: currentChat._id,
+      senderId: id,
+      text: newMeassage
+    }
+    const receiverId = currentChat.members.find((member) => member !== id)
+    socket?.current.emit('sendMessage', {
+      senderId: id,
+      receiverId: receiverId,
+      text: newMeassage
 
     })
-    const {data} = await axios.post('https://batiyaloapi.onrender.com/api/message/newMessages', sandesh)
-    setMessages([...messages,data])
+    const { data } = await axios.post('https://batiyaloapi.onrender.com/api/message/newMessages', sandesh)
+    setMessages([...messages, data])
     setNewmessage('')
-}
-const origin=[]
-useEffect(()=>{
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth'})
-},[messages])
-const b='abc'
-// const getSelectedUser= async(data)=>{
-//   setCurrentChat(data);
-//   const {data}=await axios.get(`http://localhost:5000/api/getuser/${findOtherUsers}`)
-// }
-conversations.map((val)=>{
-  const findOtherUsers=val.members.find((m)=>m!==id)
-  origin.push(findOtherUsers)
-})
+  }
+  const origin = []
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+  const b = 'abc'
+  // const getSelectedUser= async(data)=>{
+  //   setCurrentChat(data);
+  //   const {data}=await axios.get(`http://localhost:5000/api/getuser/${findOtherUsers}`)
+  // }
+  conversations.map((val) => {
+    const findOtherUsers = val.members.find((m) => m !== id)
+    origin.push(findOtherUsers)
+  })
 
-useEffect(()=>{
-       const x=onlineUsers?.find((user)=>user.userId==selctedUser?.message._id)
-       setGetStatus(x)
-},[selctedUser,onlineUsers])
-const emoji=(obj)=>{
-  
-  let msg=newMeassage
-  msg+=obj.emoji
-  setNewmessage(msg)
-}
+  useEffect(() => {
+    const x = onlineUsers?.find((user) => user.userId == selctedUser?.message._id)
+    setGetStatus(x)
+  }, [selctedUser, onlineUsers])
+  const emoji = (obj) => {
+
+    let msg = newMeassage
+    msg += obj.emoji
+    setNewmessage(msg)
+  }
 
   return (
     <>
@@ -136,125 +136,125 @@ const emoji=(obj)=>{
           <Nav>
             <div className='userdetail'>
 
-            <img className='user-profile' src='https://i.pinimg.com/736x/bb/e3/02/bbe302ed8d905165577c638e908cec76.jpg' alt='ig'/>
-         <  span className='logged-user'>
-          {user.message.name}
-          </span> 
+              <img className='user-profile' src='https://i.pinimg.com/736x/bb/e3/02/bbe302ed8d905165577c638e908cec76.jpg' alt='ig' />
+              <  span className='logged-user'>
+                {user.message.name}
+              </span>
             </div>
-            <span className='people-icon'><PeopleIcon onClick={()=>setOpenChat(!openChat)}/></span>
+            <span className='people-icon'><PeopleIcon onClick={() => setOpenChat(!openChat)} /></span>
             <span className='nav-icons'>
-            <LogoutIcon onClick={()=>userHandle(false)}/>
+              <LogoutIcon onClick={() => userHandle(false)} />
             </span>
           </Nav>
-          
-      {
-        openChat?
-        <ContactList>
 
-          <NewChat id={id} userList={origin} updater={updater} />
-        </ContactList>
-        :(
-
-          <ContactList>
-                
-
-            
-            {
-              conversations.map((val, index) => (
-                <div className='click' onClick={()=>setCurrentChat(val)}>
-
-              <FriendList key={index} val={val} id={id} />
-                </div>
-              ))
-            }  
-          </ContactList>
-              )
-            }
-             
-        </Sidebar>
-        
-
-            <ChatArea>
           {
-            currentChat?._id?(
+            openChat ?
+              <ContactList>
+
+                <NewChat id={id} userList={origin} updater={updater} />
+              </ContactList>
+              : (
+
+                <ContactList>
+
+
+
+                  {
+                    conversations.map((val, index) => (
+                      <div className='click' onClick={() => setCurrentChat(val)}>
+
+                        <FriendList key={index} val={val} id={id} />
+                      </div>
+                    ))
+                  }
+                </ContactList>
+              )
+          }
+
+        </Sidebar>
+
+
+        <ChatArea>
+          {
+            currentChat?._id ? (
               <div>
 
-              <NavChat>
-            <p className='current-user-deatail'>
-            <img className='current-user'  src={avatar} alt='ig'/>
-            <div className='current-chat-info'>
+                <NavChat>
+                  <p className='current-user-deatail'>
+                    <img className='current-user' src={avatar} alt='ig' />
+                    <div className='current-chat-info'>
 
-            <div>
+                      <div>
 
-            <span className='user-name'>{selctedUser?.message.name}</span>
-            </div>
-            <div>
-             {
-              getStatus?.userId?(
+                        <span className='user-name'>{selctedUser?.message.name}</span>
+                      </div>
+                      <div>
+                        {
+                          getStatus?.userId ? (
 
-                <h3 className='user-status'>online</h3>
-              ):(
+                            <h3 className='user-status'>online</h3>
+                          ) : (
 
-                <h3 className='user-status'>offline</h3>
-              )
-             }
-            </div>
-            </div>
-            </p>
-            <p className='user-menu'>
-             
-             <MoreVertSharpIcon />
-            
-            </p>
-          </NavChat>
-              
-              <Messages>
-              {
-                
-                messages.map((item,index)=>(
-                  <div ref={scrollRef}>
+                            <h3 className='user-status'>offline</h3>
+                          )
+                        }
+                      </div>
+                    </div>
+                  </p>
+                  <p className='user-menu'>
 
-                   <Message item={item} id={id} key={index}/>
-                </div>
-              ))
-            }
-            
-        
-          </Messages>
-          <Textual>
-            
+                    <MoreVertSharpIcon />
 
-          {
-            click?(
+                  </p>
+                </NavChat>
 
-             <div className='emoji-picker'>
+                <Messages>
+                  {
 
-               <EmojiPicker onEmojiClick={emoji} className='emoji-picker' height={300} width='100%' />
-             </div>
-              ):('')
+                    messages.map((item, index) => (
+                      <div ref={scrollRef}>
 
-          }  
-
-          <EmojiEmotionsOutlinedIcon onClick={()=>setClick(!click)} className='emoji'/>
+                        <Message item={item} id={id} key={index} />
+                      </div>
+                    ))
+                  }
 
 
-            
-          
+                  <Textual>
 
-           <AttachmentOutlinedIcon className='attachment'/>
-            
-             <Input value={newMeassage}  onChange={(e)=>setNewmessage(e.target.value)}  />
-          <SendIcon className='sendbutton' onClick={handleSubmit}/>
-          </Textual>
-            </div>
-            ):(
+
+                    {
+                      click ? (
+
+                        <div className='emoji-picker'>
+
+                          <EmojiPicker onEmojiClick={emoji} className='emoji-picker' height={300} width='100%' />
+                        </div>
+                      ) : ('')
+
+                    }
+
+                    <EmojiEmotionsOutlinedIcon onClick={() => setClick(!click)} className='emoji' />
+
+
+
+
+
+                    <AttachmentOutlinedIcon className='attachment' />
+
+                    {/* <Input value={newMeassage} onChange={(e) => setNewmessage(e.target.value)} /> */}
+                    <SendIcon className='sendbutton' onClick={handleSubmit} />
+                  </Textual>
+                </Messages>
+              </div>
+            ) : (
               <Messages></Messages>
             )
           }
 
 
         </ChatArea>
-    
+
       </Container>
 
     </>
@@ -262,27 +262,28 @@ const emoji=(obj)=>{
 }
 
 export default Chat
-const Niv=styeled.div``
+
 const Container = styeled.div`
    display: flex;
-   flex-direction: row;
-   height:100%;
-   width:100%
+   
 `
 const Sidebar = styeled.div`
  
- width:650px;
+ flex:30%;
+ position:relative;
  background-color:#101a20;
-
+ min-height: 100%;
+   height: auto !important;
+   height: 100%; 
 
 `
 const ChatArea = styeled.div`
-position: relative;
+flex:70%;
+position:relative;
 border-left:0.5px solid #848488;
 // background-image:url('https://play-lh.googleusercontent.com/SZ97RCEv5EVH6iMCDIdHeGJM_BNyHYcnRQ4EdK4V_VyVxLlQS8GY1U3xB8atEBH55OM');
 background-image:url(${bg});
-width:100%;
-height: 722px;
+
 background-color:	 #101a20;
 // background-color:	rgba(233,237,239,0.12);
 `
@@ -335,7 +336,7 @@ display: flex;
 
 
 `
-const Span=styeled.div`
+const Span = styeled.div`
 margin-top: 28px;
 margin-right:20px;
 
@@ -351,7 +352,8 @@ background-color: #202c33;
 const Messages = styled.div`
 overflow-y:scroll;
 overflow-x:hidden;
-height: 581px;
+position:relative;
+// height: 100%;
 &::-webkit-scrollbar {
  width: 3px;
  height:10px;
@@ -374,6 +376,7 @@ height: 581px;
 const Input = styled.input`
 width:78%;
 height:40px;
+position:fixed;
 outline:none;
 // text-align:center;
 text-indent:10px;
@@ -388,10 +391,9 @@ height:50px;
 width:70px
 margin-right:40px;
 `
-const Textual= styled.div`
-    position: absolute;
-   
-      bottom:0;
+const Textual = styled.div`
+    position: relative;
+    bottom:0;
       background-color:#202c33;
       height:70px;
       width:100%;
@@ -401,4 +403,4 @@ const Textual= styled.div`
       
 
 `
- 
+

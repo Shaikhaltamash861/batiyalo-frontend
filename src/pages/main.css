@@ -1,0 +1,337 @@
+.container{
+    position: relative;
+    display: flex;
+    max-width: 100%;
+     height: 100vh;
+  
+}
+.container .left{
+    position: relative;
+    flex: 30%;
+    
+    height: calc(100vh);
+    border-right: 1px solid #aebac1;
+    /* background: rgb(16, 26, 32); */
+}
+.container .right{
+    position: relative;
+    flex: 70%;
+    
+    height: 100vh;
+}
+.container .right::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../asset/bg.png');
+    opacity: 1;
+}
+.left .header{
+    position: relative;
+    width: 100%;
+    background: rgb(32, 44, 51);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 72px;
+    
+}
+
+
+.userimg{
+    position: relative;
+    /* margin-left: 40px; */
+    padding-left: 5px;
+    width: 78px;
+    height: 60px;
+    /* border-radius: 50%; */
+    overflow: hidden;
+}
+
+.nav_icons{
+    
+    
+    margin-right: 7px;
+    color: #aebac1;
+    
+}
+.nav_icons .people{
+    cursor: pointer;
+    margin-right: 40px;
+    font-size: 1.8em;
+}
+.nav_icons .logout{
+    cursor: pointer;
+    margin-right: 15px;
+    font-size: 1.6em;
+}
+.nav_icons .vertical{
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: 1.6em;
+}
+
+.left_container .chatList{
+    position: relative;
+    height: calc( 100vh - 72px);
+    overflow-y: auto;
+    width: 100%;
+    background: rgb(16, 26, 32);
+}
+.chatList .block{
+    position: relative;
+    width: 100%;
+    height: 78px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(16, 26, 32);
+    
+    padding: 10px;
+    border-bottom: 1px solid #595b5c;
+}
+.chatList .block.active{
+    background: #595b5c;
+}
+.chatList .block:hover{
+     background: #303a3d;
+}
+.chat_img .block ::-webkit-scrollbar {
+    width: 2px;
+    
+  }
+  .chatList .block::-webkit-scrollbar-track {
+    width:1px;
+    height:10vh;
+     
+   
+   }
+   /* width */
+::-webkit-scrollbar {
+    width: 2px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #595b5c;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #595b5c;
+    border-radius: 10px;
+  }
+ .chatList .block .chat_img{
+    position: relative;
+     width: 65px;
+    height: 55px; 
+    
+    overflow: hidden;
+    border-radius: 50%;
+}
+.chat_img .chat_user_img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+.chatList .block .details{
+    position: relative;
+    padding-left: 10px;
+    width: 100%;
+}
+.chatList .block .details .name_time{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px; 
+    color: #aebac1;
+}
+.chatList .block .details .name_time h4{
+    font-size: 1.1em;
+    font-weight: 600;
+}
+.chatList .block .details .name_time p{
+    font-size: 0.75em;
+    
+}
+.chatList .block .details .last_msg{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #aebac1;
+}
+.chatList .block .details .last_msg p{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ .right .header{
+    position: relative;
+    width: 100%;
+    background: rgb(32, 44, 51);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 72px;
+    
+}
+
+
+.right .current_user_img{
+    position: relative;
+    margin-left: 9px;
+    padding-left: 5px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.right .header .current_user_img .cover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+.right.nav_icons{
+    
+    
+    margin-right: 7px;
+    color: #aebac1;
+    
+}
+
+.right .nav_icons .vertical{
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: 1.6em;
+}
+.right .header .current_user_detail{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #aebac1;
+}
+.current_user_detail h4{
+    font-weight: 600;
+    line-height: 1.2em;
+    margin-left: 10px;
+    margin-top: 3px;
+}
+.current_user_detail h4 span{
+    font-weight: 400;
+    line-height: 1.2em;
+    
+}
+.right .chatBox{
+    position: relative;
+    width: 100%;
+    height: calc( 100vh - 132px);
+    
+    padding: 20px;
+    overflow-y: auto;
+   
+     
+    
+}
+.right .input_box{
+    position: relative;
+    width: 100%;
+    height: 60px;
+    background:#202c33;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.input_box .inpt{
+    width: 90%;
+    height: 40px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    text-indent: 9px;
+    margin-right: 10px;
+    background: #515557;
+    color: aliceblue;
+
+}
+.input_box .emoji{
+    font-size: 1.9em;
+    color: #aebac1;
+    margin-left: 15px;
+    /* margin-right: 5px; */
+    cursor: pointer;
+}
+.input_box .emoji:hover{
+    background: rgb(60, 74, 75);
+    border-radius: 50%;
+}
+.input_box .send{
+    color: #aebac1;
+    cursor: pointer;
+    font-size: 1.9em;
+    margin-right: 15px;
+}
+.currentUser{
+    display: flex;
+    align-items: center;
+    
+}
+.currentUser .currentUserName{
+    padding-left: 10px;
+    color: #aebac1;
+    font-weight: 900;
+}
+.currentUser .currentUserName::first-letter{
+    text-transform: uppercase;
+
+}
+.back{
+    margin-left: 2px;
+    
+}
+@media screen and (max-width: 450px){
+    .currentUserName{
+        display: none;
+    }
+    .leftNone ~ .left{
+        display: none;
+
+    }
+      .rightNone ~.right{
+        display: none;
+      }
+    
+   .emojiRemove{
+    display: none;
+   }
+   .back{
+
+   }
+   .inpt{
+    margin-left: 30px;
+    
+   }
+   .right .chatBox{
+    padding: 0px;
+   }
+ .right .input_box{
+    margin-bottom: 10px;
+    background: red;
+   }
+   .right{
+    height: fit-content;
+   }
+}
