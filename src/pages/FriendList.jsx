@@ -6,6 +6,7 @@ import avatar1 from '../asset/avatar1.png'
 import avatar2 from '../asset/ava.webp'
 import avatar3 from '../asset/avatar.jpg'
 import avatar4 from '../asset/av.png'
+import url from '../routes/baseUrl'
 function FriendList({val,id}) {
   const [friends,setFriends]=useState([])
   const [lastMsg,setLastMsg]=useState()
@@ -18,7 +19,7 @@ function FriendList({val,id}) {
                
                
                const getUsers=async()=>{
-             const {data}=await axios.get(`https://batiyaloapi.onrender.com/api/getuser/${findOtherUsers}`)
+             const {data}=await axios.get(`${url}/api/getuser/${findOtherUsers}`)
              setFriends(data.message)
              
             }
@@ -33,7 +34,7 @@ function FriendList({val,id}) {
           // let profile=avatar+number;
           useEffect(()=>{
              const getLastMsg=async()=>{
-                  const {data}=await axios.get(`https://batiyaloapi.onrender.com/api/message/getLastMsg/${val._id}`)
+                  const {data}=await axios.get(`${url}/api/message/getLastMsg/${val._id}`)
                   if(!data){return;}
                   setLastMsg(data.text)
          

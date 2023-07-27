@@ -11,12 +11,14 @@ import KeyboardBackspaceSharpIcon from '@mui/icons-material/KeyboardBackspaceSha
 import { io } from 'socket.io-client'
 import axios from 'axios';
 import EmojiPicker from 'emoji-picker-react';
+import url from '../routes/baseUrl';
 function Right({user}) {
   const update=useContext(CurrentUser)
   const updateUser=(item)=>{
     // console.log(item)
     update.updateCurrentUserChat(item)
 }
+const foc=useRef(null)
   const contextApi=useContext(CurrentUser)
   const currentChat=contextApi.state;
   const [messages, setMessages] = useState([])
@@ -28,6 +30,8 @@ function Right({user}) {
   const [getStatus,setGetStatus]=useState()
   const scrollRef = useRef()
   const socket = useRef()
+  foc.current?.focus()
+  const height = window.innerHeight;
   useEffect(() => {
     socket.current = io('https://socketapi-2ffd.onrender.com');
     socket?.current.on('getMessage', (data) => {
@@ -44,6 +48,7 @@ function Right({user}) {
     console.log('msg received')
     socketMessge && currentChat?.members?.includes(socketMessge?.sender) &&
       setMessages(prev => [...prev, socketMessge])
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [socketMessge, currentChat])
   useEffect(() => {
     socket?.current.emit('addUsers', user.message._id)
@@ -57,20 +62,28 @@ function Right({user}) {
 
   useEffect(() => {
     const getMessages = async () => {
-      const { data } = await axios.get(`https://batiyaloapi.onrender.com/api/message/${currentChat._id}`)
+      const { data } = await axios.get(`${url}/api/message/${currentChat._id}`)
       setMessages(data)
     }
     const getCurrentUser = async () => {
       const findOtherUsers = currentChat?.members.find((m) => m !==user.message._id )
-      const { data } = await axios.get(`https://batiyaloapi.onrender.com/api/getuser/${findOtherUsers}`)
+      const { data } = await axios.get(`${url}/api/getuser/${findOtherUsers}`)
       setSelectedUser(data)
     }
     getMessages()
     getCurrentUser();
   }, [currentChat])
+  const handleKeyPress=(e)=>{
+   console.log('keyPressed')
+    if(e.key=='Enter'){
+      handleSubmit(e);
+    }
 
+  }
   const handleSubmit = async (e) => {
+  
     console.log('clicked')
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
     e.preventDefault();
         if(!newMessage)return;
         const renderMessage={
@@ -91,7 +104,7 @@ function Right({user}) {
       text: newMessage
 
     })
-    const { data } = await axios.post('https://batiyaloapi.onrender.com/api/message/newMessages', sandesh)
+    const { data } = await axios.post(`${url}/api/message/newMessages`, sandesh)
     // setMessages([...messages, data])
     console.log(data)
     setNewMessage('')
@@ -110,7 +123,7 @@ function Right({user}) {
     setNewMessage(msg)
   }
   return (
-    <div className='right_container'>
+    <div className='right_container' onKeyDown={handleKeyPress}>
           <div className='header'>
             <div className='current_user_detail'>
                
@@ -135,12 +148,14 @@ function Right({user}) {
                 <MoreVertSharpIcon className='vertical'/>
             </div>
         </div>
-        <div className='chatBox'  >
+        <div className='chatBox'  style={{
+          height:`${height}`
+        }} >
                {
                 messages.map((message,index)=>(
-                  <div ref={scrollRef} key={index}>
+                  <div ref={scrollRef}  key={index}>
 
-                    <ChatBox message={message} user={user}/>
+                    <ChatBox  message={message} user={user}/>
                   </div>
                 ))
                }
@@ -165,9 +180,9 @@ function Right({user}) {
                      <EmojiEmotionsOutlinedIcon onClick={() => setClick(!click)} className='emoji' />
                     </div>
             </>
-            <input className='inpt' type='text'  value={newMessage} onChange={(e)=>setNewMessage(e.target.value)}
+            <input className='inpt' type='text' ref={foc} autoFocus autocomplete="off"  value={newMessage} onChange={(e)=>setNewMessage(e.target.value)}
             name="message" placeholder='write something...' />
-            <SendIcon type='submit' className='send' onClick={handleSubmit}
+            <SendIcon type='submit' onKeyDown={handleKeyPress} className='send' onClick={handleSubmit}
            
             
             

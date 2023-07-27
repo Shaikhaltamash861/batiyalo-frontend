@@ -14,7 +14,8 @@
   
   .login > div > img {
     object-fit: contain;
-    height: 150px;
+    
+    height: 100px;
   }
   
   .login > button {
@@ -33,7 +34,7 @@
   .ipt{
     width: 300px;
     height: 40px;
-    margin-top:-140px;
+    /* margin-top:-140px; */
     border-top: none;
     border-left: none;
     border-right: none;
@@ -44,7 +45,7 @@
   
   }
   .pass{
-    margin-top:-240px;
+    /* margin-top:-240px; */
     width: 300px;
     height: 40px;
     border-top: none;
@@ -58,12 +59,12 @@
   
   }
   .button{
-    margin-top: -300px;
+    /* margin-top: -300px; */
     height: 40px;
   }
   .account{
     color: white;
-    margin-top: -420px;
+    /* margin-top: -420px; */
   }
   .account span{
     color:  #00a884;

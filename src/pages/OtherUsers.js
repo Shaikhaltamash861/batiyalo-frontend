@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import Img from '../asset/avatar1.png'
 import axios from 'axios'
+import url from '../routes/baseUrl'
 
 function OtherUsers({id,userList,updater}) {
     const [friends,setFriends]=useState([])
@@ -9,7 +10,7 @@ function OtherUsers({id,userList,updater}) {
        
            
         const getUsers=async()=>{
-         const {data}=await axios.get(`https://batiyaloapi.onrender.com/api/getAllUser`)
+         const {data}=await axios.get(`${url}/api/getAllUser`)
          setFriends(data)
          
        }
@@ -23,7 +24,7 @@ function OtherUsers({id,userList,updater}) {
    
        const addFriend= async(val)=>{
         
-        const {data}=await axios.post(`https://batiyaloapi.onrender.com/api/conversation/newConversation`,{
+        const {data}=await axios.post(`${url}/api/conversation/newConversation`,{
           senderId:id,
           receiverId:val._id
         })

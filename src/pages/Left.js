@@ -8,6 +8,7 @@ import axios from 'axios';
 import OtherUsers from './OtherUsers'
 import CurrentUser from '../context/currentUser';
 import { useContext } from 'react';
+import url from '../routes/baseUrl';
 function Left({user}) {
      const [conversation,setConversations]=useState([])
      const [currentChat,setCurrentChat]=useState()
@@ -22,7 +23,7 @@ function Left({user}) {
        
           useEffect(() => {
                const getConversation = async () => {
-                 const { data } = await axios.get(`https://batiyaloapi.onrender.com/api/conversation/${user.message._id}`)
+                 const { data } = await axios.get(`${url}/api/conversation/${user.message._id}`)
            
                  setConversations(data)
                }

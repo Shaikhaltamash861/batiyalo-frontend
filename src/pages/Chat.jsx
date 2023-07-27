@@ -16,6 +16,7 @@ import FriendList from './FriendList';
 import Message from './Message';
 import NewChat from './NewChat';
 import EmojiPicker from 'emoji-picker-react';
+import url from '../routes/baseUrl';
 function Chat({ user, userHandle }) {
   const [conversations, setConversations] = useState([])
   const [currentChat, setCurrentChat] = useState([])
@@ -63,7 +64,7 @@ function Chat({ user, userHandle }) {
   }, [user])
   useEffect(() => {
     const getConversation = async () => {
-      const { data } = await axios.get(`https://batiyaloapi.onrender.com/api/conversation/${id}`)
+      const { data } = await axios.get(`${url}/api/conversation/${id}`)
 
       setConversations(data)
     }
@@ -73,12 +74,12 @@ function Chat({ user, userHandle }) {
 
   useEffect(() => {
     const getMessages = async () => {
-      const { data } = await axios.get(`https://batiyaloapi.onrender.com/api/message/${currentChat._id}`)
+      const { data } = await axios.get(`${url}/api/message/${currentChat._id}`)
       setMessages(data)
     }
     const getCurrentUser = async () => {
       const findOtherUsers = currentChat?.members.find((m) => m !== id)
-      const { data } = await axios.get(`https://batiyaloapi.onrender.com/api/getuser/${findOtherUsers}`)
+      const { data } = await axios.get(`${url}/api/getuser/${findOtherUsers}`)
       setSelectedUser(data)
     }
     getMessages()
@@ -100,7 +101,7 @@ function Chat({ user, userHandle }) {
       text: newMeassage
 
     })
-    const { data } = await axios.post('https://batiyaloapi.onrender.com/api/message/newMessages', sandesh)
+    const { data } = await axios.post(`${url}/api/message/newMessages`, sandesh)
     setMessages([...messages, data])
     setNewmessage('')
   }

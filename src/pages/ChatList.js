@@ -1,6 +1,7 @@
 import React ,{useState,useEffect}from 'react'
 import Img from '../asset/avatar1.png'
 import axios from 'axios'
+import url from '../routes/baseUrl'
 function ChatList({val,id}) {
     const [friends,setFriends]=useState([])
     const [lastMsg,setLastMsg]=useState()
@@ -14,7 +15,7 @@ function ChatList({val,id}) {
                  
                  
                  const getUsers=async()=>{
-               const {data}=await axios.get(`https://batiyaloapi.onrender.com/api/getuser/${findOtherUsers}`)
+               const {data}=await axios.get(`${url}/api/getuser/${findOtherUsers}`)
                setFriends(data.message)
                
               }
@@ -29,7 +30,7 @@ function ChatList({val,id}) {
             // let profile=avatar+number;
             useEffect(()=>{
                const getLastMsg=async()=>{
-                    const {data}=await axios.get(`https://batiyaloapi.onrender.com/api/message/getLastMsg/${val._id}`)
+                    const {data}=await axios.get(`${url}/api/message/getLastMsg/${val._id}`)
                     if(!data){return;}
                     setLastMsg(data.text)
            
@@ -69,7 +70,7 @@ function ChatList({val,id}) {
                           const day=thatDay.getDate()
                           const month=thatDay.getMonth()
                           const year=thatDay.getFullYear()
-                          setLastTime(String((data+"/"+month+"/"+year)))
+                          setLastTime(String((day+"/"+month+"/"+year)))
                             
   
                         }

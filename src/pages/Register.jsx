@@ -2,13 +2,14 @@ import React,{useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import './register.css'
 import axios from 'axios'
+import url from '../routes/baseUrl';
 function Register() {
     const [name,setName]=useState()
     const [email,setEmail]=useState()
     const [password,setPassword]=useState()
     const navigate=useNavigate();
     const register= async()=>{
-         const {data}=await axios.post('https://batiyaloapi.onrender.com/api/register',{
+         const {data}=await axios.post(`${url}/api/register`,{
           name:name,
           email:email,
           password:password

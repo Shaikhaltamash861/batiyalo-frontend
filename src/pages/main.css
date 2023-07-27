@@ -320,16 +320,18 @@
    .back{
 
    }
-   .inpt{
+  .input_box .inpt{
     margin-left: 30px;
-    
+    border-radius: 19px;
    }
+   
    .right .chatBox{
     padding: 0px;
+    height: calc( 100vh - 50vh);
    }
  .right .input_box{
-    margin-bottom: 10px;
-    background: red;
+    margin-top: -3px;
+    
    }
    .right{
     height: fit-content;
